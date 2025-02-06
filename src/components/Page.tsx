@@ -1,23 +1,35 @@
 import { ReactNode } from 'react';
-import { StatusBar } from 'react-native';
-import styled from 'styled-components/native';
-import theme from '../styles/theme';
+import { SafeAreaView, StatusBar, ViewStyle } from 'react-native';
+import { useTheme } from 'styled-components';
+
+import Loading from './Loading';
 
 interface PageProps {
 	children: ReactNode;
+	style: ViewStyle;
+	noPadding?: boolean;
 }
 
-export const Container = styled.SafeAreaView`
-	flex: 1;
-	padding-inline: 15px;
-	background-color: ${({ theme }) => theme.colors.background.main};
-`;
-
-export default function Page(props: PageProps) {
-  return (
-    <Container>
-       <StatusBar backgroundColor={theme.colors.background.main} barStyle='light-content' />
-      {props.children}
-    </Container>
-  );
+export default function Page({ noPadding = false, ...props }: PageProps) {
+	const theme = useTheme();
+	return (
+		<SafeAreaView
+			style={[
+				{
+					paddingHorizontal: !noPadding ? 15 : 0,
+					flex: 1,
+					gap: 16,
+					backgroundColor: theme.colors.background.main,
+				},
+				props.style ? props.style : {},
+			]}
+		>
+			<StatusBar
+				backgroundColor={theme.colors.background.main}
+				barStyle='light-content'
+			/>
+			<Loading />
+			{props.children}
+		</SafeAreaView>
+	);
 }

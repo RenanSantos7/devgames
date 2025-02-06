@@ -5,19 +5,18 @@ export interface IData {
 }
 
 export interface IGame {
-	id: string;
+	id: number;
 	slug: string;
 	name: string;
-	description: string;
-	released: string;
-	updated: string;
+	rating: number;
 	background_image: string;
+	alternative_names?: string[];
+	genres: IData[];
+	description?: string;
+	released?: string;
+	updated?: string;
 	background_image_additional?: string;
 	website?: string;
-	rating: number;
-	rating_top: number;
-	alternative_names: string[];
-	platforms: IData[];
-	genres: IData[];
-	stores: IData[];
+	platforms?: IData[];
+	stores?: IData[];
 }
