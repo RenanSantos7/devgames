@@ -4,6 +4,7 @@ export default {
 			main: '#050B18',
 			light: '#64748B',
 			dark: '#1F2430',
+			darker: '#0F172A'
 		},
 		primary: {
 			main: '#0E5C88',
