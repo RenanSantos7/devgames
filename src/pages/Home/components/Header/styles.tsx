@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
     gap: 12px;
+	margin-top: 28px;
 `;
 
 export const FavoritesBtn = styled.TouchableOpacity`

@@ -6,7 +6,7 @@ import Loading from './Loading';
 
 interface PageProps {
 	children: ReactNode;
-	style: ViewStyle;
+	style?: ViewStyle;
 	noPadding?: boolean;
 }
 

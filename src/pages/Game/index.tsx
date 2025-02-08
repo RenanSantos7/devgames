@@ -1,4 +1,9 @@
-import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
+import {
+	Link,
+	NavigationProp,
+	RouteProp,
+	useNavigation,
+} from '@react-navigation/native';
 import { FlatList } from 'react-native';
 import { useEffect, useState } from 'react';
 import AntDesignIcon from '@expo/vector-icons/AntDesign';
@@ -20,6 +25,7 @@ import {
 	Title1,
 	Title2,
 	TopButton,
+	WebSiteBtn,
 } from './styles';
 import { Separator } from '../../components/layout/Separator';
 import { useDataContext } from '../../contexts/dataContext';
@@ -78,7 +84,7 @@ export default function Game({ route }: GameProps) {
 				description:
 					data.description_raw || 'Descrição não disponível.',
 				rating: data.rating || 0,
-				alternative_names: data.alternative_names || [],
+				website: data.website || '',
 				platforms:
 					data.platforms?.map((p: any) => ({
 						id: p.platform.id,
@@ -127,6 +133,7 @@ export default function Game({ route }: GameProps) {
 					/>
 				</TopButton>
 			</FlexLineBt>
+
 			<Carroussel>
 				<FlatList
 					data={[
@@ -144,6 +151,12 @@ export default function Game({ route }: GameProps) {
 			</Carroussel>
 
 			<Section>
+				<WebSiteBtn>
+					<Link href={game.website} action={{ type: '' }}>
+						<FontAwesomeIcon name='link' color='#fff' size={24} />
+					</Link>
+				</WebSiteBtn>
+
 				<FlexLine gap={8}>
 					<AntDesignIcon name='star' size={20} color='#FABB1E' />
 					<Rating>{game.rating}/10</Rating>
