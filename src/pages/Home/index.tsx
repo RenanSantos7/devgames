@@ -20,7 +20,7 @@ export default function Home() {
 		<Page>
 			<Header />
 
-			<Button title='Limpar' onPress={() => clear()} />
+			{/* <Button title='Limpar' onPress={() => clear()} /> */}
 
 			<Section>
 				<Title>Jogos em alta</Title>

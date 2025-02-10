@@ -1,19 +1,19 @@
 import { ReactNode } from 'react';
-import { SafeAreaView, StatusBar, ViewStyle } from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar, ViewStyle } from 'react-native';
 import { useTheme } from 'styled-components';
 
 import Loading from './Loading';
 
 interface PageProps {
 	children: ReactNode;
-	style: ViewStyle;
+	style?: ViewStyle;
 	noPadding?: boolean;
 }
 
 export default function Page({ noPadding = false, ...props }: PageProps) {
 	const theme = useTheme();
 	return (
-		<SafeAreaView
+		<ScrollView
 			style={[
 				{
 					paddingHorizontal: !noPadding ? 15 : 0,
@@ -30,6 +30,6 @@ export default function Page({ noPadding = false, ...props }: PageProps) {
 			/>
 			<Loading />
 			{props.children}
-		</SafeAreaView>
+		</ScrollView>
 	);
 }
