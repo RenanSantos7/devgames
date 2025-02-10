@@ -1,6 +1,7 @@
-import { ReactNode } from 'react';
-import { SafeAreaView, ScrollView, StatusBar, ViewStyle } from 'react-native';
+import { ReactNode, useEffect } from 'react';
+import { ScrollView, StatusBar, ViewStyle } from 'react-native';
 import { useTheme } from 'styled-components';
+import * as NavigationBar from 'expo-navigation-bar';
 
 import Loading from './Loading';
 
@@ -12,6 +13,12 @@ interface PageProps {
 
 export default function Page({ noPadding = false, ...props }: PageProps) {
 	const theme = useTheme();
+
+	useEffect(() => {
+		NavigationBar.setBackgroundColorAsync(theme.colors.background.main);
+		NavigationBar.setButtonStyleAsync('light');
+	}, []);
+
 	return (
 		<ScrollView
 			style={[
