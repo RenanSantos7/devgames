@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { FlexLine } from '../../components/layout/FlexLine';
 import { Link } from '@react-navigation/native';
-import { Link } from '@react-navigation/native';
+
 
 export const FlexLineBt = styled(FlexLine)`
 	position: absolute;
@@ -17,24 +17,6 @@ export const FlexLineBt = styled(FlexLine)`
 `;
 
 export const TopButton = styled.Pressable`
-	width: 48px;
-	height: 48px;
-	border-radius: 24px;
-	justify-content: center;
-	align-items: center;
-	background-color: ${({ theme }) => theme.colors.background.main};
-`;
-
-export const WebSiteBtn = styled.View`
-	width: 48px;
-	height: 48px;
-	border-radius: 24px;
-	justify-content: center;
-	align-items: center;
-	position: absolute;
-	right: 15px;
-	top: -40px;
-	background-color: ${({ theme }) => theme.colors.secondary.main};
 	width: 48px;
 	height: 48px;
 	border-radius: 24px;

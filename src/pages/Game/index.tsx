@@ -4,7 +4,7 @@ import {
 	RouteProp,
 	useNavigation,
 } from '@react-navigation/native';
-import { FlatList } from 'react-native';
+import { FlatList, ScrollView } from 'react-native';
 import { useEffect, useState } from 'react';
 import AntDesignIcon from '@expo/vector-icons/AntDesign';
 import FontAwesomeIcon from '@expo/vector-icons/FontAwesome6';
@@ -50,6 +50,8 @@ export default function Game({ route }: GameProps) {
 		background_image: '',
 		alternative_names: [''],
 		genres: [{ id: 0, name: 'Gênero', slug: '' }],
+		platforms: [{ id: 0, name: 'Plataforma', slug: '' }],
+		stores: [{ id: 0, name: 'Loja', slug: '' }],
 		description:
 			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis risus ut dui mattis elementum. Pellentesque tristique id massa sit amet ullamcorper. Praesent accumsan leo ut dapibus scelerisque. Integer libero massa, dictum nec orci vitae, efficitur molestie eros. Etiam lacus urna, dictum non nulla quis, accumsan elementum turpis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris maximus erat mauris, sit amet dapibus tellus ultricies eget. Nunc suscipit ac ligula vitae sagittis. Sed non ligula at magna ultricies lacinia id in purus. In laoreet posuere nunc a semper. Aliquam erat volutpat. Maecenas dignissim est a viverra vehicula. Nam ullamcorper facilisis risus sed tristique. Maecenas malesuada lacus quis mi lobortis tincidunt vitae ut erat. Maecenas luctus odio ac libero tincidunt, nec.',
 		released: '2025-01-01',
@@ -120,109 +122,116 @@ export default function Game({ route }: GameProps) {
 
 	return (
 		<Page style={{ position: 'relative' }} noPadding>
-			<FlexLineBt>
-				<TopButton onPress={() => goBack()}>
-					<FontAwesomeIcon name='arrow-left' color='#fff' size={24} />
-				</TopButton>
-				<TopButton onPress={() => switchFavorite(game.slug)}>
-					<IoniconsIcon
-						name={
-							favorites.includes(game.slug)
-								? 'bookmark'
-								: 'bookmark-outline'
-						}
-						color='#fff'
-						size={24}
-					/>
-				</TopButton>
-			</FlexLineBt>
-
-			<Carroussel>
-				<FlatList
-					data={[
-						game.background_image,
-						game.background_image_additional,
-					]}
-					renderItem={({ item }) => (
-						<CarrousselImage
-							source={{ uri: item }}
-							resizeMode='cover'
+			<ScrollView>
+				<FlexLineBt>
+					<TopButton onPress={() => goBack()}>
+						<FontAwesomeIcon
+							name='arrow-left'
+							color='#fff'
+							size={24}
 						/>
-					)}
-					horizontal
+					</TopButton>
+					<TopButton onPress={() => switchFavorite(game.slug)}>
+						<IoniconsIcon
+							name={
+								favorites.some(fav => fav.id === game.id)
+									? 'bookmark'
+									: 'bookmark-outline'
+							}
+							color='#fff'
+							size={24}
+						/>
+					</TopButton>
+				</FlexLineBt>
+
+				<Carroussel>
+					<FlatList
+						data={[
+							game.background_image,
+							game.background_image_additional,
+						]}
+						renderItem={({ item }) => (
+							<CarrousselImage
+								source={{ uri: item }}
+								resizeMode='cover'
+							/>
+						)}
+						horizontal
+					/>
+				</Carroussel>
+
+				<Section style={{ marginTop: 16 }}>
+					<WebSiteBtn>
+						<Link href={game.website} action={{ type: '' }}>
+							<FontAwesomeIcon
+								name='link'
+								color='#fff'
+								size={24}
+							/>
+						</Link>
+					</WebSiteBtn>
+
+					<FlexLine gap={8}>
+						<AntDesignIcon name='star' size={20} color='#FABB1E' />
+						<Rating>{game.rating}/10</Rating>
+					</FlexLine>
+					<Title1>{game.name}</Title1>
+				</Section>
+
+				<Section>
+					<Title2>Gêneros</Title2>
+
+					<FlexList>
+						{game.genres.map(genre => (
+							<Pill
+								key={genre.id}
+								text={genre.name}
+								type='genre'
+							/>
+						))}
+					</FlexList>
+				</Section>
+
+				<Section>
+					<Title2>Descrição</Title2>
+					<SimpleText numberOfLines={5} ellipsizeMode='tail'>
+						{game.description}
+					</SimpleText>
+
+					<MoreBtn
+						activeOpacity={0.75}
+						onPress={() => setModalOpen(true)}
+					>
+						<MoreBtnTxt>Ler descrição completa</MoreBtnTxt>
+					</MoreBtn>
+				</Section>
+
+				<Section>
+					<Title2>Plataformas</Title2>
+
+					<FlexList>
+						{game.platforms.map(platform => (
+							<Pill key={platform.id} text={platform.name} />
+						))}
+					</FlexList>
+				</Section>
+
+				<Section>
+					<Title2>Lojas</Title2>
+
+					<FlexList>
+						{game.stores.map(store => (
+							<Pill key={store.id} text={store.name} />
+						))}
+					</FlexList>
+				</Section>
+
+				<Description
+					visibility={modalOpen}
+					setVisibility={setModalOpen}
+					text={game.description}
 				/>
-			</Carroussel>
-
-			<Section style={{ marginTop: 16 }}>
-				<WebSiteBtn>
-					<Link href={game.website} action={{ type: '' }}>
-						<FontAwesomeIcon name='link' color='#fff' size={24} />
-					</Link>
-				</WebSiteBtn>
-
-				<FlexLine gap={8}>
-					<AntDesignIcon name='star' size={20} color='#FABB1E' />
-					<Rating>{game.rating}/10</Rating>
-				</FlexLine>
-				<Title1>{game.name}</Title1>
-			</Section>
-
-			<Section>
-				<Title2>Gêneros</Title2>
-
-				<FlexList>
-					{game.genres.map(genre => (
-						<Pill key={genre.id} text={genre.name} type='genre' />
-					))}
-				</FlexList>
-			</Section>
-
-			<Section>
-				<Title2>Descrição</Title2>
-				<SimpleText numberOfLines={5} ellipsizeMode='tail'>
-					{game.description}
-				</SimpleText>
-
-				<MoreBtn
-					activeOpacity={0.75}
-					onPress={() => setModalOpen(true)}
-				>
-					<MoreBtnTxt>Ler descrição completa</MoreBtnTxt>
-				</MoreBtn>
-			</Section>
-
-			<Section>
-				<Title2>Plataformas</Title2>
-
-				{/* <FlatList
-					data={game.platforms}
-					renderItem={({ item }) => <Pill text={item.name} />}
-					ItemSeparatorComponent={() => <Separator size={9} />}
-					horizontal
-				/> */}
-
-				<FlexList>
-					{game.platforms.map(platform => (
-						<Pill key={platform.id} text={platform.name} />
-					))}
-				</FlexList>
-			</Section>
-
-			<Section>
-				<Title2>Lojas</Title2>
-
-				<FlexList>
-					{game.stores.map(store => (
-						<Pill key={store.id} text={store.name} />
-					))}
-				</FlexList>
-			</Section>
-
-			<Description
-				visibility={modalOpen}
-				setVisibility={setModalOpen}
-				text={game.description}
-			/>
+			</ScrollView>
 		</Page>
 	);
 }

@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from 'react';
-import { ScrollView, StatusBar, ViewStyle } from 'react-native';
+import { StatusBar, View, ViewStyle } from 'react-native';
 import { useTheme } from 'styled-components';
 import * as NavigationBar from 'expo-navigation-bar';
 
@@ -20,7 +20,7 @@ export default function Page({ noPadding = false, ...props }: PageProps) {
 	}, []);
 
 	return (
-		<ScrollView
+		<View
 			style={[
 				{
 					paddingHorizontal: !noPadding ? 15 : 0,
@@ -37,6 +37,6 @@ export default function Page({ noPadding = false, ...props }: PageProps) {
 			/>
 			<Loading />
 			{props.children}
-		</ScrollView>
+		</View>
 	);
 }

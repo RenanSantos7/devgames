@@ -8,12 +8,12 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { IGame } from '../@types';
-import getData from '../services'
+import getData from '../services';
 
 interface IDataContext {
 	games: IGame[];
 	loading: boolean;
-	favorites: string[];
+	favorites: IGame[];
 	switchFavorite: (slug: string) => void;
 	clear: () => void;
 }
@@ -95,22 +95,29 @@ export default function DataProvider({ children }: { children: ReactNode }) {
 	}
 
 	function switchFavorite(slug: string) {
-		if (favorites.includes(slug)) {
-			setFavorites(prev => prev.filter(item => item !== slug));
+		if (favorites.some(item => item.slug === slug)) {
+			setFavorites(prev => prev.filter(item => item.slug !== slug));
 		} else {
-			setFavorites(prev => [...prev, slug])
+			const selectedGame = games.find(game => game.slug === slug);
+			setFavorites(prev => [...prev, selectedGame]);
 		}
 	}
 
 	useEffect(() => {
-		fetchData();
+		fetchData().then(() =>
+			getDataFromAyncStorage('favorites').then(setFavorites),
+		);
 	}, []);
 
 	useEffect(() => {
 		if (games.length > 0) {
-            storeData('games', games);
-        }
+			storeData('games', games);
+		}
 	}, [games]);
+
+	useEffect(() => {
+		storeData('favorites', favorites);
+	}, [favorites]);
 
 	return (
 		<DataContext.Provider

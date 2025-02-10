@@ -1,4 +1,3 @@
-import { Image, Text, View } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 import { BackgroundImg, Container, Content, Rate, Title } from './styles';

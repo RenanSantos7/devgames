@@ -1,6 +1,8 @@
 import { FlatList, Image, View } from 'react-native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+import { AppStackParams } from '../../../../routes/app.routes';
 import { FlexLine } from '../../../../components/layout/FlexLine';
 import { Container, FavoritesBtn, Input, SearchBtn } from './styles';
 import { useTheme } from 'styled-components';
@@ -13,6 +15,7 @@ const categories = ['Arcade', 'Ação', 'Esportes', 'Competitivo', 'Estratégia'
 
 export default function Header(props: HeaderProps) {
     const theme = useTheme()
+    const { navigate } = useNavigation<NavigationProp<AppStackParams>>();
 
 	return (
 		<Container>
@@ -22,7 +25,10 @@ export default function Header(props: HeaderProps) {
     				height={48}
     			/>
     
-    			<FavoritesBtn activeOpacity={0.75}>
+                <FavoritesBtn
+                    activeOpacity={0.75}
+                    onPress={() => navigate('Favorites')}
+                >
     				<Ionicons name='bookmarks' color='#fff' size={24} />
     			</FavoritesBtn>
             </FlexLine>
