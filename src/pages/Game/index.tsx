@@ -4,7 +4,7 @@ import {
 	RouteProp,
 	useNavigation,
 } from '@react-navigation/native';
-import { FlatList, View } from 'react-native';
+import { FlatList } from 'react-native';
 import { useEffect, useState } from 'react';
 import AntDesignIcon from '@expo/vector-icons/AntDesign';
 import FontAwesomeIcon from '@expo/vector-icons/FontAwesome6';
