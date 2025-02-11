@@ -7,12 +7,14 @@ import {
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { IGame } from '../@types';
+import { IGame, IGenre } from '../@types';
 import getData from '../services';
 import formatGames from '../utils/formatGame';
+import formatGenres from '../utils/formatGenres';
 
 interface IDataContext {
 	games: IGame[];
+	genres: IGenre[];
 	loading: boolean;
 	favorites: IGame[];
 	switchFavorite: (game: IGame) => void;
@@ -23,6 +25,7 @@ const DataContext = createContext<IDataContext>(undefined);
 
 export default function DataProvider({ children }: { children: ReactNode }) {
 	const [games, setGames] = useState<IGame[]>([]);
+	const [genres, setGenres] = useState<IGenre[]>([]);
 	const [favorites, setFavorites] = useState([]);
 	const [loading, setLoading] = useState(false);
 
@@ -33,6 +36,15 @@ export default function DataProvider({ children }: { children: ReactNode }) {
 			'https://api.rawg.io/api/games?key=d22198479fd144bcb2462c4d8e011db2';
 
 		const results = await getData(endPoint, () => setLoading(false));
+		return results;
+	}
+
+	async function getGenres() {
+		const results = await getData(
+			'https://api.rawg.io/api/genres?key=d22198479fd144bcb2462c4d8e011db2',
+			() => setLoading(false)
+		).then(data => formatGenres(data));
+
 		return results;
 	}
 
@@ -56,14 +68,27 @@ export default function DataProvider({ children }: { children: ReactNode }) {
 	}
 
 	async function fetchData() {
-		const storagedData = await getDataFromAyncStorage('games');
+		const storagedGames = await getDataFromAyncStorage('games');
+		const storagedGenres = await getDataFromAyncStorage('genres');
+		const storagedFavorites = await getDataFromAyncStorage('favorites');
 
-		if (storagedData === null || storagedData.length === 0) {
+		if (storagedGames === null || storagedGames.length === 0) {
 			const gamesFromApi = await getAllGames();
 			const mappedGames = formatGames(gamesFromApi);
 			setGames(mappedGames);
 		} else {
-			setGames(storagedData);
+			setGames(storagedGames);
+		}
+
+		if (storagedGenres === null || storagedGenres.length === 0) {
+			const genresFromApi = await getGenres().then(data => formatGenres(data));
+			setGenres(genresFromApi);
+		} else {
+			setGenres(storagedGenres);
+		}
+
+		if (storagedFavorites !== null && storagedFavorites.length > 0) {
+			setFavorites(storagedFavorites);
 		}
 	}
 
@@ -71,14 +96,12 @@ export default function DataProvider({ children }: { children: ReactNode }) {
 		if (favorites.some((fav: IGame) => fav.slug === game.slug)) {
 			setFavorites(prev => prev.filter(item => item.slug !== game.slug));
 		} else {
-			setFavorites(prev => [...prev, game])
+			setFavorites(prev => [...prev, game]);
 		}
 	}
 
 	useEffect(() => {
-		fetchData().then(() =>
-			getDataFromAyncStorage('favorites').then(setFavorites),
-		);
+		fetchData()
 	}, []);
 
 	useEffect(() => {
@@ -87,15 +110,28 @@ export default function DataProvider({ children }: { children: ReactNode }) {
 		}
 	}, [games]);
 
-	// useEffect(() => {
-	// 	storeData('favorites', favorites);
-	// 	console.log(favorites);
-	// }, [favorites]);
+	useEffect(() => {
+		if (genres.length > 0) {
+			storeData('genres', genres);
+		}
+	}, [genres]);
+
+	useEffect(() => {
+		if (favorites.length > 0) {
+			storeData('favorites', favorites);
+		}
+	}, [favorites]);
+
+	useEffect(() => {
+		storeData('favorites', favorites);
+		console.log(favorites);
+	}, [favorites]);
 
 	return (
 		<DataContext.Provider
 			value={{
 				games,
+				genres,
 				loading,
 				favorites,
 				switchFavorite,

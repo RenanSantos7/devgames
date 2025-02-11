@@ -3,9 +3,11 @@ export default async function getData(endPoint: string, final?: () => void) {
 		const response = await fetch(endPoint);
 		if (response.ok) {
 			const data = await response.json();
-			return endPoint.includes('/games/')
-				? data
-				: data.results;
+			const isGameArray = !endPoint.includes('/games/') ||
+			endPoint.includes('/genres')
+			return isGameArray
+				? data.results
+				: data;
 		} else {
 			throw new Error(
 				`Erro na requisição: ${response.status} ${response.statusText}`,

@@ -13,6 +13,7 @@ import Page from '../../components/Page';
 import SearchBar from '../../components/SearchBar';
 import getData from '../../services';
 import formatGames from '../../utils/formatGame';
+import { EmptyListContainer, EmptyListTxt } from './styles';
 
 export default function Search() {
 	const { params } = useRoute<RouteProp<AppStackParams, 'Search'>>();
@@ -46,16 +47,22 @@ page_size=5&key=d22198479fd144bcb2462c4d8e011db2&search=${str}`;
 				searchQuery={query}
 				setSearchQuery={setQuery}
 				handleSearch={() => handleSearch(query)}
-            />
-            
-			<Title3>Resultados para "{query}"</Title3>
-            <FlatList
-                data={games}
-                renderItem={({ item }) => (
-                    <Card game={item} />
-                )}
-                ItemSeparatorComponent={() => <Separator orientation='vertical' size={12} />}
-            />
+			/>
+
+			<FlatList
+				data={games}
+				renderItem={({ item }) => <Card game={item} />}
+				ItemSeparatorComponent={() => (
+					<Separator orientation='vertical' size={12} />
+				)}
+				ListEmptyComponent={() => (
+					<EmptyListContainer>
+						<EmptyListTxt>
+							Não encontramos um jogo com esse nome...
+						</EmptyListTxt>
+					</EmptyListContainer>
+				)}
+			/>
 		</Page>
 	);
 }

@@ -3,6 +3,8 @@ import Home from "../pages/Home";
 import Game from "../pages/Game";
 import Favorites from "../pages/Favorites";
 import Search from "../pages/Search";
+import Genre from "../pages/Genre";
+import { IGenre } from "../@types";
 
 export type AppStackParams = {
     Home: undefined;
@@ -13,6 +15,9 @@ export type AppStackParams = {
     Search: {
         query: string;
     };
+    Genre: {
+        genre: IGenre;
+    }
 }
 const Stack = createNativeStackNavigator<AppStackParams>();
 
@@ -42,6 +47,11 @@ export default function Routes() {
             <Stack.Screen
                 name="Search"
                 component={Search}
+            />
+
+            <Stack.Screen
+                name="Genre"
+                component={Genre}
             />
         </Stack.Navigator>
     )

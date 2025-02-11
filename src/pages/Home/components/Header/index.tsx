@@ -1,5 +1,9 @@
 import { FlatList, Image, View } from 'react-native';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import {
+	NavigationProp,
+	useFocusEffect,
+	useNavigation,
+} from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { AppStackParams } from '../../../../routes/app.routes';
@@ -7,28 +11,21 @@ import { FlexLine } from '../../../../components/layout/FlexLine';
 import { Container, FavoritesBtn, Input, SearchBtn } from './styles';
 import { useTheme } from 'styled-components';
 import Pill from '../../../../components/layout/Pill';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import SearchBar from '../../../../components/SearchBar';
+import getData from '../../../../services';
+import formatGenres from '../../../../utils/formatGenres';
+import { useDataContext } from '../../../../contexts/dataContext';
 
 interface HeaderProps {}
-
-const categories = [
-	'Arcade',
-	'Ação',
-	'Esportes',
-	'Competitivo',
-	'Estratégia',
-	'Indie',
-	'Corrida',
-	'Luta',
-];
 
 export default function Header(props: HeaderProps) {
 	const theme = useTheme();
 	const { navigate } = useNavigation<NavigationProp<AppStackParams>>();
+	const { genres } = useDataContext();
 
 	const [searchQuery, setSearchQuery] = useState('');
-
+		
 	function handleSearch() {
 		if (searchQuery) {
 			navigate('Search', { query: searchQuery });
@@ -51,15 +48,21 @@ export default function Header(props: HeaderProps) {
 				</FavoritesBtn>
 			</FlexLine>
 
-            <SearchBar
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-                handleSearch={handleSearch}
-            />
+			<SearchBar
+				searchQuery={searchQuery}
+				setSearchQuery={setSearchQuery}
+				handleSearch={handleSearch}
+			/>
 
 			<FlatList
-				data={categories}
-				renderItem={({ item }) => <Pill text={item} />}
+				data={genres}
+				renderItem={({ item }) => (
+					<Pill
+						onPress={() => navigate('Genre', { genre: item })}
+						text={item.name}
+						type='genre'
+					/>
+				)}
 				ItemSeparatorComponent={() => <View style={{ width: 16 }} />}
 				horizontal
 			/>

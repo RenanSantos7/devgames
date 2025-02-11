@@ -25,10 +25,10 @@ const BtText = styled.Text`
     font-size: 14px;
 `;
 
-export default function Pill({ text, type = 'platform' }: PillProps) {
+export default function Pill({ text, type = 'platform', ...props }: PillProps) {
 	if (type === 'genre') {
 		return (
-			<Genre activeOpacity={0.75}>
+			<Genre activeOpacity={0.75} {...props}>
 				<BtText>{text}</BtText>
 			</Genre>
 		);

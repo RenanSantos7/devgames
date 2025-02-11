@@ -12,6 +12,7 @@ import Page from '../../components/Page';
 
 export default function Home() {
 	const { games, clear } = useDataContext();
+	
 	const sortedGames = useMemo(() => {
 		return games
 			.sort((a, b) => {
@@ -19,6 +20,7 @@ export default function Home() {
 			})
 			.slice(0, 5);
 	}, [games]);
+
 	return (
 		<Page>
 			<Header />

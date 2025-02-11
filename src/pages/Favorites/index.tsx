@@ -9,9 +9,7 @@ import {
 	DeleteBtn,
 	EmptyList,
 	FavItem,
-	Header,
 	StyledText,
-	Title,
 } from './styles';
 import { useDataContext } from '../../contexts/dataContext';
 import Card from '../../components/Card';
@@ -19,6 +17,7 @@ import Page from '../../components/Page';
 import { Separator } from '../../components/layout/Separator';
 import { Title1 } from '../../components/typography';
 import BackBtn from '../../components/BackBtn';
+import PageHeader from '../../components/PageHeader';
 
 export default function Favorites() {
 	const { favorites, switchFavorite } = useDataContext();
@@ -26,18 +25,14 @@ export default function Favorites() {
 
 	return (
 		<Page>
-			<Header>
-				<BackBtn />
-
-				<Title1>Meus Favoritos</Title1>
-			</Header>
+			<PageHeader title='Meus Favoritos' />
 
 			<FlatList
 				data={favorites}
 				renderItem={({ item }) => (
 					<FavItem>
 						<Card game={item} />
-						<DeleteBtn onPress={() => switchFavorite(item.slug)}>
+						<DeleteBtn onPress={() => switchFavorite(item)}>
 							<FeatherIcon name='trash' color='#fff' size={20} />
 						</DeleteBtn>
 					</FavItem>

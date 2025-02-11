@@ -20,3 +20,9 @@ export interface IGame {
 	platforms?: IData[];
 	stores?: IData[];
 }
+
+
+export interface IGenre {
+	id: number;
+	name: string;
+}
