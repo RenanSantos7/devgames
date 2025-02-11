@@ -66,18 +66,6 @@ export const Rating = styled.Text`
 	font-size: 16px;
 `;
 
-export const Title1 = styled.Text`
-	font-size: 24px;
-	color: ${({ theme }) => theme.colors.text.main};
-	font-weight: bold;
-`;
-
-export const Title2 = styled.Text`
-	font-size: 20px;
-	color: ${({ theme }) => theme.colors.text.main};
-	font-weight: bold;
-`;
-
 export const SimpleText = styled.Text`
 	font-size: 16px;
 	color: ${({ theme }) => theme.colors.text.dark};

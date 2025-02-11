@@ -36,12 +36,6 @@ export const TitleContainer = styled.View`
 	justify-content: center;
 `;
 
-export const Title = styled.Text`
-	font-size: 24px;
-	color: ${({ theme }) => theme.colors.text.main};
-    transform: translateX(-24px);
-`;
-
 export const TextContainer = styled.ScrollView`
 	margin-bottom: 40px;
 `;

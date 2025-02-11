@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../pages/Home";
 import Game from "../pages/Game";
 import Favorites from "../pages/Favorites";
+import Search from "../pages/Search";
 
 export type AppStackParams = {
     Home: undefined;
@@ -9,6 +10,9 @@ export type AppStackParams = {
         slug: string;
     };
     Favorites: undefined;
+    Search: {
+        query: string;
+    };
 }
 const Stack = createNativeStackNavigator<AppStackParams>();
 
@@ -33,6 +37,11 @@ export default function Routes() {
             <Stack.Screen
                 name="Favorites"
                 component={Favorites}
+            />
+
+            <Stack.Screen
+                name="Search"
+                component={Search}
             />
         </Stack.Navigator>
     )

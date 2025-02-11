@@ -6,9 +6,3 @@ export const Section = styled.View`
     height: 1900px;
 `;
 
-export const Title = styled.Text`
-	color: ${({ theme }) => theme.colors.text.main};
-	font-weight: bold;
-    font-size: 18px;
-    margin-bottom: 18px;
-`;

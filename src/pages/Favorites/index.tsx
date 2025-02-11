@@ -6,7 +6,6 @@ import FontAwesomeIcon from '@expo/vector-icons/FontAwesome6';
 
 import { AppStackParams } from '../../routes/app.routes';
 import {
-	BackBtn,
 	DeleteBtn,
 	EmptyList,
 	FavItem,
@@ -18,6 +17,8 @@ import { useDataContext } from '../../contexts/dataContext';
 import Card from '../../components/Card';
 import Page from '../../components/Page';
 import { Separator } from '../../components/layout/Separator';
+import { Title1 } from '../../components/typography';
+import BackBtn from '../../components/BackBtn';
 
 export default function Favorites() {
 	const { favorites, switchFavorite } = useDataContext();
@@ -26,10 +27,9 @@ export default function Favorites() {
 	return (
 		<Page>
 			<Header>
-				<BackBtn onPress={() => goBack()}>
-					<FontAwesomeIcon name='arrow-left' color='#fff' size={24} />
-				</BackBtn>
-				<Title>Meus Favoritos</Title>
+				<BackBtn />
+
+				<Title1>Meus Favoritos</Title1>
 			</Header>
 
 			<FlatList

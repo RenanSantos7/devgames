@@ -9,9 +9,9 @@ import {
 	Header,
 	StyledText,
 	TextContainer,
-	Title,
 	TitleContainer,
 } from './styles';
+import { Title1 } from '../../../../components/typography';
 
 interface DescriptionProps {
 	visibility: boolean;
@@ -34,7 +34,7 @@ export default function Description(props: DescriptionProps) {
 						</CloseButton>
 
 						<TitleContainer>
-							<Title>Descrição</Title>
+							<Title1>Descrição</Title1>
 						</TitleContainer>
 					</Header>
 					<TextContainer>

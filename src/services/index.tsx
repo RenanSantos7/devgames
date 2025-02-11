@@ -3,7 +3,9 @@ export default async function getData(endPoint: string, final?: () => void) {
 		const response = await fetch(endPoint);
 		if (response.ok) {
 			const data = await response.json();
-			return data.results;
+			return endPoint.includes('/games/')
+				? data
+				: data.results;
 		} else {
 			throw new Error(
 				`Erro na requisição: ${response.status} ${response.statusText}`,
@@ -11,6 +13,7 @@ export default async function getData(endPoint: string, final?: () => void) {
 		}
 	} catch (error) {
 		console.error('Erro ao buscar dados:', error);
+		return undefined;
 	} finally {
 		final && final();
 	}

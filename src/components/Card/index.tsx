@@ -1,10 +1,11 @@
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-import { BackgroundImg, Container, Content, Rate, Title } from './styles';
+import { AppStackParams } from '../../routes/app.routes';
+import { BackgroundImg, Container, Content, Rate } from './styles';
 import { FlexLine } from '../layout/FlexLine';
 import { IGame } from '../../@types';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { AppStackParams } from '../../routes/app.routes';
+import { Title3 } from '../typography';
 
 interface CardProps {
 	game: IGame;
@@ -27,7 +28,7 @@ export default function Card({ game }: CardProps) {
 				height={175}
 			/>
 			<Content>
-				<Title>{game.name}</Title>
+				<Title3>{game.name}</Title3>
 				<FlexLine gap={8}>
 					<AntDesign name='star' size={20} color='#FABB1E' />
 					<Rate>{game.rating}/10</Rate>

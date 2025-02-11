@@ -9,12 +9,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { IGame } from '../@types';
 import getData from '../services';
+import formatGames from '../utils/formatGame';
 
 interface IDataContext {
 	games: IGame[];
 	loading: boolean;
 	favorites: IGame[];
-	switchFavorite: (slug: string) => void;
+	switchFavorite: (game: IGame) => void;
 	clear: () => void;
 }
 
@@ -59,47 +60,18 @@ export default function DataProvider({ children }: { children: ReactNode }) {
 
 		if (storagedData === null || storagedData.length === 0) {
 			const gamesFromApi = await getAllGames();
-			const mappedGames = gamesFromApi.map((game: any) => {
-				const gameGenres = game.genres.map((genre: any) => ({
-					id: genre.id,
-					name: genre.name,
-					slug: genre.slug,
-				}));
-				const gamePlatforms = game.platforms.map((platform: any) => ({
-					id: platform.platform.id,
-					name: platform.platform.name,
-					slug: platform.platform.slug,
-				}));
-				const gameStores = game.stores.map((store: any) => ({
-					id: store.id,
-					name: store.store.name,
-					slug: store.store.slug,
-				}));
-
-				return {
-					id: game.id,
-					slug: game.slug,
-					name: game.name,
-					background_image: game.background_image,
-					rating: game.rating,
-					alternative_names: game.alternative_names,
-					platforms: gamePlatforms,
-					genres: gameGenres,
-					stores: gameStores,
-				};
-			});
+			const mappedGames = formatGames(gamesFromApi);
 			setGames(mappedGames);
 		} else {
 			setGames(storagedData);
 		}
 	}
 
-	function switchFavorite(slug: string) {
-		if (favorites.some(item => item.slug === slug)) {
-			setFavorites(prev => prev.filter(item => item.slug !== slug));
+	async function switchFavorite(game: IGame) {
+		if (favorites.some((fav: IGame) => fav.slug === game.slug)) {
+			setFavorites(prev => prev.filter(item => item.slug !== game.slug));
 		} else {
-			const selectedGame = games.find(game => game.slug === slug);
-			setFavorites(prev => [...prev, selectedGame]);
+			setFavorites(prev => [...prev, game])
 		}
 	}
 
@@ -115,9 +87,10 @@ export default function DataProvider({ children }: { children: ReactNode }) {
 		}
 	}, [games]);
 
-	useEffect(() => {
-		storeData('favorites', favorites);
-	}, [favorites]);
+	// useEffect(() => {
+	// 	storeData('favorites', favorites);
+	// 	console.log(favorites);
+	// }, [favorites]);
 
 	return (
 		<DataContext.Provider

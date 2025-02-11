@@ -5,7 +5,7 @@ import {
 	useNavigation,
 } from '@react-navigation/native';
 import { FlatList, ScrollView } from 'react-native';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import AntDesignIcon from '@expo/vector-icons/AntDesign';
 import FontAwesomeIcon from '@expo/vector-icons/FontAwesome6';
 import IoniconsIcon from '@expo/vector-icons/Ionicons';
@@ -23,19 +23,18 @@ import {
 	Rating,
 	Section,
 	SimpleText,
-	Title1,
-	Title2,
 	TopButton,
 	WebSiteBtn,
 } from './styles';
 import { Separator } from '../../components/layout/Separator';
+import { Title1, Title2 } from '../../components/typography';
 import { useDataContext } from '../../contexts/dataContext';
+import Description from './components/Description';
 import Page from '../../components/Page';
 import Pill from '../../components/layout/Pill';
-import Description from './components/Description';
 
 interface GameProps {
-	route: RouteProp<AppStackParams>;
+	route: RouteProp<AppStackParams, 'Game'>;
 }
 
 export default function Game({ route }: GameProps) {
@@ -57,6 +56,10 @@ export default function Game({ route }: GameProps) {
 		released: '2025-01-01',
 	});
 	const [modalOpen, setModalOpen] = useState(false);
+	const isFavorite = useMemo(
+		() => favorites.some(fav => fav.slug === game.slug),
+		[favorites, game],
+	);
 
 	async function getData(endPoint: string) {
 		try {
@@ -131,13 +134,9 @@ export default function Game({ route }: GameProps) {
 							size={24}
 						/>
 					</TopButton>
-					<TopButton onPress={() => switchFavorite(game.slug)}>
+					<TopButton onPress={() => switchFavorite(game)}>
 						<IoniconsIcon
-							name={
-								favorites.some(fav => fav.id === game.id)
-									? 'bookmark'
-									: 'bookmark-outline'
-							}
+							name={isFavorite ? 'bookmark' : 'bookmark-outline'}
 							color='#fff'
 							size={24}
 						/>

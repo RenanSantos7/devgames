@@ -1,11 +1,14 @@
 import { Button, FlatList, View } from 'react-native';
-import { Section, Title } from './styles';
-import { useDataContext } from '../../contexts/dataContext';
-import Page from '../../components/Page';
-import Header from './components/Header';
 import { useMemo } from 'react';
+
+import { Section } from './styles';
+import { Separator } from '../../components/layout/Separator';
+import { Title2 } from '../../components/typography';
+import { useDataContext } from '../../contexts/dataContext';
 import Card from '../../components/Card';
 import EmptyList from './components/EmptyList';
+import Header from './components/Header';
+import Page from '../../components/Page';
 
 export default function Home() {
 	const { games, clear } = useDataContext();
@@ -23,13 +26,14 @@ export default function Home() {
 			{/* <Button title='Limpar' onPress={() => clear()} /> */}
 
 			<Section>
-				<Title>Jogos em alta</Title>
+				<Title2>Jogos em alta</Title2>
 
 				<FlatList
 					data={sortedGames}
 					renderItem={({ item }) => <Card game={item} />}
-					ItemSeparatorComponent={() => <View style={{ height: 18 }} />}
+					ItemSeparatorComponent={() => <Separator size={18} orientation='vertical' />}
 					ListEmptyComponent={() => <EmptyList />}
+					style={{ marginTop: 18 }}
 					scrollEnabled
 				/>
 			</Section>

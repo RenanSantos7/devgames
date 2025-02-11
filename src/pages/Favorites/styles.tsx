@@ -8,14 +8,6 @@ export const Header = styled.View`
 	align-items: center;
 `;
 
-export const BackBtn = styled.Pressable`
-	height: 48px;
-	width: 48px;
-	justify-content: center;
-	align-items: center;
-	border-radius: 24px;
-`;
-
 export const Title = styled.Text`
 	font-size: 24px;
 	font-weight: bold;
