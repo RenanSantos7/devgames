@@ -120,7 +120,10 @@ export default function Game({ route }: GameProps) {
 							size={24}
 						/>
 					</TopButton>
-					<TopButton onPress={() => switchFavorite(game)}>
+					<TopButton
+						onPress={() => switchFavorite(game)}
+						onLongPress={() => navigate('Favorites')}
+					>
 						<IoniconsIcon
 							name={isFavorite ? 'bookmark' : 'bookmark-outline'}
 							color='#fff'
