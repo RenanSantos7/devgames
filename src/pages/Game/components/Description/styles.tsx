@@ -34,6 +34,7 @@ export const TitleContainer = styled.View`
 	flex: 1;
 	align-items: center;
 	justify-content: center;
+	transform: translateX(-24px);
 `;
 
 export const TextContainer = styled.ScrollView`

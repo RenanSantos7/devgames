@@ -18,7 +18,6 @@ interface IDataContext {
 	loading: boolean;
 	favorites: IGame[];
 	switchFavorite: (game: IGame) => void;
-	clear: () => void;
 }
 
 const DataContext = createContext<IDataContext>(undefined);
@@ -42,7 +41,7 @@ export default function DataProvider({ children }: { children: ReactNode }) {
 	async function getGenres() {
 		const results = await getData(
 			'https://api.rawg.io/api/genres?key=d22198479fd144bcb2462c4d8e011db2',
-			() => setLoading(false)
+			() => setLoading(false),
 		).then(data => formatGenres(data));
 
 		return results;
@@ -81,7 +80,9 @@ export default function DataProvider({ children }: { children: ReactNode }) {
 		}
 
 		if (storagedGenres === null || storagedGenres.length === 0) {
-			const genresFromApi = await getGenres().then(data => formatGenres(data));
+			const genresFromApi = await getGenres().then(data =>
+				formatGenres(data),
+			);
 			setGenres(genresFromApi);
 		} else {
 			setGenres(storagedGenres);
@@ -101,7 +102,7 @@ export default function DataProvider({ children }: { children: ReactNode }) {
 	}
 
 	useEffect(() => {
-		fetchData()
+		fetchData();
 	}, []);
 
 	useEffect(() => {
@@ -122,11 +123,6 @@ export default function DataProvider({ children }: { children: ReactNode }) {
 		}
 	}, [favorites]);
 
-	useEffect(() => {
-		storeData('favorites', favorites);
-		console.log(favorites);
-	}, [favorites]);
-
 	return (
 		<DataContext.Provider
 			value={{
@@ -135,7 +131,6 @@ export default function DataProvider({ children }: { children: ReactNode }) {
 				loading,
 				favorites,
 				switchFavorite,
-				clear: () => AsyncStorage.clear(),
 			}}
 		>
 			{children}

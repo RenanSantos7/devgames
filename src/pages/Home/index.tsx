@@ -11,7 +11,7 @@ import Header from './components/Header';
 import Page from '../../components/Page';
 
 export default function Home() {
-	const { games, clear } = useDataContext();
+	const { games } = useDataContext();
 	
 	const sortedGames = useMemo(() => {
 		return games
@@ -24,8 +24,6 @@ export default function Home() {
 	return (
 		<Page>
 			<Header />
-
-			{/* <Button title='Limpar' onPress={() => clear()} /> */}
 
 			<Section>
 				<Title2>Jogos em alta</Title2>

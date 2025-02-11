@@ -47,7 +47,6 @@ export default function Genre() {
 				ItemSeparatorComponent={() => (
 					<Separator size={18} orientation='vertical' />
 				)}
-				// ListEmptyComponent={() => <EmptyList />}
 				style={{ marginTop: 18 }}
 				scrollEnabled
 			/>

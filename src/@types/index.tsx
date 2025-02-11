@@ -1,7 +1,6 @@
 export interface IData {
 	id: number;
 	name: string;
-	slug: string;
 }
 
 export interface IGame {
@@ -22,7 +21,4 @@ export interface IGame {
 }
 
 
-export interface IGenre {
-	id: number;
-	name: string;
-}
+export interface IGenre extends IData {}

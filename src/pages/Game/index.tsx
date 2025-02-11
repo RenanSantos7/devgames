@@ -1,18 +1,16 @@
+import { FlatList, ScrollView } from 'react-native';
 import {
 	Link,
 	NavigationProp,
 	RouteProp,
 	useNavigation,
 } from '@react-navigation/native';
-import { FlatList, ScrollView } from 'react-native';
 import { useEffect, useMemo, useState } from 'react';
 import AntDesignIcon from '@expo/vector-icons/AntDesign';
 import FontAwesomeIcon from '@expo/vector-icons/FontAwesome6';
 import IoniconsIcon from '@expo/vector-icons/Ionicons';
 
 import { AppStackParams } from '../../routes/app.routes';
-import { FlexLine } from '../../components/layout/FlexLine';
-import { IGame } from '../../@types';
 import {
 	Carroussel,
 	CarrousselImage,
@@ -26,12 +24,14 @@ import {
 	TopButton,
 	WebSiteBtn,
 } from './styles';
-import { Separator } from '../../components/layout/Separator';
+import { FlexLine } from '../../components/layout/FlexLine';
+import { IGame } from '../../@types';
 import { Title1, Title2 } from '../../components/typography';
 import { useDataContext } from '../../contexts/dataContext';
 import Description from './components/Description';
 import Page from '../../components/Page';
 import Pill from '../../components/layout/Pill';
+import getData from '../../services';
 
 interface GameProps {
 	route: RouteProp<AppStackParams, 'Game'>;
@@ -39,8 +39,10 @@ interface GameProps {
 
 export default function Game({ route }: GameProps) {
 	const { params } = route;
-	const { goBack } = useNavigation<NavigationProp<AppStackParams>>();
+	const { goBack, navigate } =
+		useNavigation<NavigationProp<AppStackParams>>();
 	const { favorites, switchFavorite } = useDataContext();
+
 	const [game, setGame] = useState<IGame>({
 		id: 0,
 		slug: params.slug,
@@ -60,22 +62,6 @@ export default function Game({ route }: GameProps) {
 		() => favorites.some(fav => fav.slug === game.slug),
 		[favorites, game],
 	);
-
-	async function getData(endPoint: string) {
-		try {
-			const response = await fetch(endPoint);
-			if (response.ok) {
-				const data = await response.json();
-				return data;
-			} else {
-				throw new Error(
-					`Erro na requisição: ${response.status} ${response.statusText}`,
-				);
-			}
-		} catch (error) {
-			console.error('Erro ao buscar dados:', error);
-		}
-	}
 
 	async function getGameData() {
 		try {
@@ -181,10 +167,13 @@ export default function Game({ route }: GameProps) {
 					<Title2>Gêneros</Title2>
 
 					<FlexList>
-						{game.genres.map(genre => (
+						{game.genres.map(item => (
 							<Pill
-								key={genre.id}
-								text={genre.name}
+								key={item.id}
+								onPress={() =>
+									navigate('Genre', { genre: item })
+								}
+								text={item.name}
 								type='genre'
 							/>
 						))}

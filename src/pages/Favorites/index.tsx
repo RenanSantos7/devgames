@@ -1,10 +1,6 @@
-import { FlatList, Text, View } from 'react-native';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { useEffect } from 'react';
+import { FlatList } from 'react-native';
 import FeatherIcon from '@expo/vector-icons/Feather';
-import FontAwesomeIcon from '@expo/vector-icons/FontAwesome6';
 
-import { AppStackParams } from '../../routes/app.routes';
 import {
 	DeleteBtn,
 	EmptyList,
@@ -14,14 +10,10 @@ import {
 import { useDataContext } from '../../contexts/dataContext';
 import Card from '../../components/Card';
 import Page from '../../components/Page';
-import { Separator } from '../../components/layout/Separator';
-import { Title1 } from '../../components/typography';
-import BackBtn from '../../components/BackBtn';
 import PageHeader from '../../components/PageHeader';
 
 export default function Favorites() {
 	const { favorites, switchFavorite } = useDataContext();
-	const { goBack } = useNavigation<NavigationProp<AppStackParams>>();
 
 	return (
 		<Page>
